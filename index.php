@@ -8,7 +8,16 @@
 <?php endif; ?>
 
 <?php while (have_posts()) : the_post(); ?>
-  <?php get_template_part('templates/content', get_post_format()); ?>
+  <?php
+    if(get_post_type() != 'post') {
+      if(get_post_format())
+        get_template_part('templates/content', trailingslashit(get_post_type()) . get_post_format());
+      else
+        get_template_part('templates/content', get_post_type());
+    } else {
+      get_template_part('templates/content', get_post_format());
+    }
+  ?>
 <?php endwhile; ?>
 
 <?php if ($wp_query->max_num_pages > 1) : ?>
